@@ -57,25 +57,35 @@ namespace QuestionnaireOleshkina
             
         }
 
-        class ASD
-        {
-            public int Position { get; set; }
-            public string Text { get; set; }
-            public List<string> Variants { get; set; }
+        //class ASD
+        //{
+        //    public int Position { get; set; }
+        //    public string Text { get; set; }
+        //    public List<string> Variants { get; set; }
 
-        }
+        //}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var p = textOnCreateQuestions.Text;
-            var v = comboBoxOnTypeQuestions.Text;
-            var s = textBoxOnPositionQuestions.Text;
+            //var p = textOnCreateQuestions.Text;
+            //var v = comboBoxOnTypeQuestions.Text;
+            //var s = textBoxOnPositionQuestions.Text;
 
-            string a = JsonConvert.DeserializeObject<string>(p);
 
-            a += JsonConvert.DeserializeObject<string>(p);
+            //ASD asd = new ASD();
+            //asd.Text = p; 
+            //asd.Position = int.Parse(s);
 
-            Console.WriteLine();
+            //asd.Variants = new List<string>();
+            //foreach (var item in listBoxForQuestions.Items)
+            //{
+            //    asd.Variants.Add(item.ToString());
+            //}
+
+
+            //JsonConvert.SerializeObject(asd);
+
+            //Console.WriteLine();
 
 
 
