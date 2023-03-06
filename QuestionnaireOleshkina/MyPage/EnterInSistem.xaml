@@ -119,28 +119,33 @@
                 Margin="5"
                 >Текст вопроса</Label>
             
-            <TextBox 
+            <TextBox Name="textOnCreateQuestions"
                 Background="Wheat">
                 
             </TextBox>
             <Label
                 Margin="5"    
                 >Тип ответа</Label>
-            
-            <ComboBox 
-                >Выбор из списка</ComboBox>
+
+            <ComboBox Name="comboBoxOnTypeQuestions" 
+                >
+                <ComboBoxItem Content="TextBox"/>
+                <ComboBoxItem Content="ComboBox"/>
+                <ComboBoxItem Content="RadioButon"/>
+
+            </ComboBox>
             
             <Label
                 Margin="5"
                 >Позиция в анкете</Label>
             
-            <TextBox
+            <TextBox Name="textBoxOnPositionQuestions"
                 Background="Wheat"
                 ></TextBox>
 
             <Label></Label>
             
-            <CheckBox 
+            <CheckBox Name="checkBoxOnUsingFilter"
                 Background="Wheat"      
                       >Включить фильтр</CheckBox>
 
@@ -161,7 +166,7 @@
             <Button 
                 Background="Wheat"
                 HorizontalAlignment="Center"   
-                Width="120"
+                Width="120" Click="Button_Click"
                     >Создать вопрос</Button>
 
             <Label></Label>
@@ -176,7 +181,7 @@
 
             <Label></Label>
 
-            <ListBox 
+            <ListBox Name="listBoxForQuestions" 
                 Background="Wheat"
                 Height="80"></ListBox>
 

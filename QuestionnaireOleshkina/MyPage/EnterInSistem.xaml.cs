@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Connechn;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,6 +55,35 @@ namespace QuestionnaireOleshkina
                 enumLion = forImageLion.visa;
             }
             
+        }
+
+        class ASD
+        {
+            public int Position { get; set; }
+            public string Text { get; set; }
+            public List<string> Variants { get; set; }
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var p = textOnCreateQuestions.Text;
+            var v = comboBoxOnTypeQuestions.Text;
+            var s = textBoxOnPositionQuestions.Text;
+
+            string a = JsonConvert.DeserializeObject<string>(p);
+
+            a += JsonConvert.DeserializeObject<string>(p);
+
+            Console.WriteLine();
+
+
+
+
+
+
+
+
         }
     }
 }

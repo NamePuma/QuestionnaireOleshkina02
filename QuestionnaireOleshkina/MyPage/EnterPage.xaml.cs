@@ -54,20 +54,34 @@ namespace QuestionnaireOleshkina
         private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 
-            if(loginTextBox.Text.Length < 1 || loginPassword.Password.Length < 1) { MessageBox.Show("Так, не понял. Ниче не вписал же");   return; }
+            CheckEnter( loginTextBox, loginPassword);
 
-            var login = loginTextBox.Text;
-            var password = loginPassword.Password.ToString();
+
+        }
+
+
+
+
+
+
+
+        private void CheckEnter(TextBox textBoxLogin, PasswordBox passwordBoxPassowrd)
+        {
+            if (textBoxLogin.Text.Length < 1 || passwordBoxPassowrd.Password.Length < 1) { MessageBox.Show("Так, не понял. Ниче не вписал же"); return; }
+
+            var login = textBoxLogin.Text;
+            var password = passwordBoxPassowrd.Password.ToString();
 
             NpgsqlCommand npgsqlCommand = Connect.autongsqlConnection.CreateCommand();
-           
+
             npgsqlCommand.CommandText = "select * from \"AccountOl\" where \"Login\" = @log and \"Password\" = @pas";
             npgsqlCommand.Parameters.AddWithValue("@log", NpgsqlDbType.Varchar, login);
             npgsqlCommand.Parameters.AddWithValue("@pas", NpgsqlDbType.Varchar, password);
             var result = npgsqlCommand.ExecuteReader();
-            while(result.Read())
+            while (result.Read())
             {
-                if(result.GetString(5) == "Teacher") {
+                if (result.GetString(5) == "Teacher")
+                {
 
                     NavigationService.Navigate(TeacherPage);
                 }
@@ -77,10 +91,9 @@ namespace QuestionnaireOleshkina
 
                 }
 
+
             }
             result.Close();
-
-
         }
     }
 }
