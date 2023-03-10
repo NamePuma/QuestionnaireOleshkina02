@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,10 +24,10 @@ namespace QuestionnaireOleshkina
     /// </summary>
     /// 
 
-   
+
 
     public partial class EnterPage : Page
-    {  
+    {
 
 
         private ConnectWithDataBase connect;
@@ -46,7 +47,7 @@ namespace QuestionnaireOleshkina
 
             Connect = connechn;
 
-            TeacherPage = new EnterInSistem();
+            TeacherPage = new EnterInSistem(Connect);
 
 
         }
@@ -54,7 +55,7 @@ namespace QuestionnaireOleshkina
         private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 
-            CheckEnter( loginTextBox, loginPassword);
+            CheckEnter(loginTextBox, loginPassword);
 
 
         }
@@ -74,7 +75,7 @@ namespace QuestionnaireOleshkina
 
             NpgsqlCommand npgsqlCommand = Connect.autongsqlConnection.CreateCommand();
 
-            npgsqlCommand.CommandText = "select * from \"AccountOl\" where \"Login\" = @log and \"Password\" = @pas";
+            npgsqlCommand.CommandText = "select * from \"Account\" where \"Login\" = @log and \"Password\" = @pas";
             npgsqlCommand.Parameters.AddWithValue("@log", NpgsqlDbType.Varchar, login);
             npgsqlCommand.Parameters.AddWithValue("@pas", NpgsqlDbType.Varchar, password);
             var result = npgsqlCommand.ExecuteReader();
@@ -82,7 +83,7 @@ namespace QuestionnaireOleshkina
             {
                 if (result.GetString(5) == "Teacher")
                 {
-
+                    Connechn.ConnectWithDataBase.teacher =login;
                     NavigationService.Navigate(TeacherPage);
                 }
                 else if (result.GetString(5) == "Student")

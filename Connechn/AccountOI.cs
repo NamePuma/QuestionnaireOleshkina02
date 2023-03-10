@@ -14,7 +14,7 @@ namespace Connechn
         private string lastName;
         private string patronymic;
         private string role;
-        private string classFotBase;
+        private string classForBase;
 
      
 
@@ -30,10 +30,10 @@ namespace Connechn
 
         public string Role { get { return role; } private set { role = value; } }
 
-        public string ClassFotBase { get { return classFotBase; } private set { classFotBase = value; } }
+        public string ClassForBase { get { return classForBase; } private set { classForBase = value; } }
 
 
-        public AccountOI( string login, string password, string firstName, string lasetName, string patronymic, string role , string classFotBase) 
+        public AccountOI( string login, string password, string firstName, string lasetName, string patronymic, string role , string classForBase) 
         
         { 
          Login = login;
@@ -42,7 +42,7 @@ namespace Connechn
             LastName = lastName;
             Patronymic = patronymic;
             Role = role;
-            ClassFotBase = classFotBase;
+            ClassForBase = classForBase;
         }
 
     }

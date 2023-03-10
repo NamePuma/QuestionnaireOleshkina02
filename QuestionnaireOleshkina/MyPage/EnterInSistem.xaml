@@ -28,7 +28,9 @@
                ></Image>
 
 
-        <Border Margin="17 0 0 0 " 
+        
+
+            <Border Margin="17 0 0 0 " 
                 Grid.Column="3" 
                 HorizontalAlignment="Center" 
                 BorderBrush="Black" 
@@ -36,7 +38,25 @@
                 
                 ></Border>
 
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Grid.Column="4" 
+                    Grid.ColumnSpan="2"
+                    Name="stackPanelNameQuetionniry">
+                    
+            <TextBlock FontSize="30" 
+                       FontWeight="Black"
 
+                 >Создание Анкеты</TextBlock>
+            <TextBox Background="Wheat"
+                     FontSize="25"
+                     Name="textBoxForName"
+                     ></TextBox>
+            <Button Click="Button_Click_1"
+                
+                >Добавить</Button>
+            
+        </StackPanel>
         
 
         <ScrollViewer Grid.ColumnSpan="3"  
@@ -50,7 +70,8 @@
         </ScrollViewer>
 
 
-            <StackPanel
+            <StackPanel Name="stackPanelEditQuesrions"
+                        Visibility="Hidden"
             Grid.Column="4">
 
             <TextBlock  FontWeight="Black"
@@ -107,7 +128,8 @@
                 >Удалить вопрос</Button>
             
         </StackPanel>
-        <StackPanel 
+        <StackPanel Name="stackPanelCreateQuesrion"
+                    Visibility="Hidden"
             Grid.Column="5">
             
             <TextBlock
@@ -183,7 +205,21 @@
 
             <ListBox Name="listBoxForQuestions" 
                 Background="Wheat"
-                Height="80"></ListBox>
+                Height="80"
+                ItemsSource="{Binding createQuestions}" 
+                     
+                     >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Label Content="{Binding Text}"></Label>
+                            <Label Content="{Binding type}"></Label>
+                            <Label Content="{Binding position}"></Label>
+                            <Label></Label>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
             <Label
                 ></Label>

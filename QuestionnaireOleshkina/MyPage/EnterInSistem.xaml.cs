@@ -3,7 +3,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -17,28 +19,37 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace QuestionnaireOleshkina
 {
     /// <summary>
     /// Логика взаимодействия для EnterInSistem.xaml
     /// </summary>
 
-    
+
 
     public partial class EnterInSistem : Page
     {
-        private enum forImageLion {
-            visa, 
+        ConnectWithDataBase connection;
+        public ObservableCollection<CreateQuestion> createQuestions { get; set; }
+        private enum forImageLion
+        {
+            visa,
             coll
         }
         private forImageLion enumLion = forImageLion.visa;
-        
-        
-        public EnterInSistem()
+
+
+        public EnterInSistem(ConnectWithDataBase connect)
         {
             InitializeComponent();
+            connection = connect;
 
-            
+            createQuestions = new ObservableCollection<CreateQuestion>();
+
+
+            DataContext = this;
+
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
@@ -47,45 +58,43 @@ namespace QuestionnaireOleshkina
             {
                 imgLion.Visibility = Visibility.Visible;
                 enumLion = forImageLion.coll;
-                
+
             }
             else
             {
                 imgLion.Visibility = Visibility.Collapsed;
                 enumLion = forImageLion.visa;
             }
-            
+
         }
 
-        //class ASD
-        //{
-        //    public int Position { get; set; }
-        //    public string Text { get; set; }
-        //    public List<string> Variants { get; set; }
-
-        //}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //var p = textOnCreateQuestions.Text;
-            //var v = comboBoxOnTypeQuestions.Text;
-            //var s = textBoxOnPositionQuestions.Text;
 
 
-            //ASD asd = new ASD();
-            //asd.Text = p; 
-            //asd.Position = int.Parse(s);
+            string text = textOnCreateQuestions.Text;
 
-            //asd.Variants = new List<string>();
-            //foreach (var item in listBoxForQuestions.Items)
-            //{
-            //    asd.Variants.Add(item.ToString());
-            //}
+            string type = comboBoxOnTypeQuestions.Text;
+
+            string position = textBoxOnPositionQuestions.Text;
+
+           
+            
+            connection.AddFromInBase();
+
+            CreateQuestion createQuestion = new CreateQuestion()
+            {
+                Text = text,
+                position = position,
+                type = type
+            };
+
+            string json = JsonConvert.SerializeObject(createQuestion);
+            createQuestions.Add(createQuestion);
 
 
-            //JsonConvert.SerializeObject(asd);
-
-            //Console.WriteLine();
+            connection.AddQuestion(json);
 
 
 
@@ -93,6 +102,40 @@ namespace QuestionnaireOleshkina
 
 
 
+
+
+
+
+
+
+        }
+
+
+
+
+        public class CreateQuestion
+        {
+            public string Text { get; set; }
+
+            public string type { get; set; }
+
+            public string position { get; set; }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var text = textBoxForName.Text;
+            if (text.Length < 1)
+            {
+                MessageBox.Show("ПУПА");
+                return;
+            }
+            Connechn.ConnectWithDataBase.NameQuestionniry = text;
+
+
+            stackPanelNameQuetionniry.Visibility = Visibility.Hidden;
+            stackPanelCreateQuesrion.Visibility = Visibility.Visible;
+            stackPanelEditQuesrions.Visibility = Visibility.Visible;
 
         }
     }
