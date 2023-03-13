@@ -197,7 +197,7 @@
                 Margin="5"
                 >Текст варианта ответа</Label>
 
-            <TextBox
+            <TextBox Name="PossibleAnswer"
                 Background="Wheat"
                 ></TextBox>
 
@@ -209,22 +209,14 @@
                 ItemsSource="{Binding createQuestions}" 
                      
                      >
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Label Content="{Binding Text}"></Label>
-                            <Label Content="{Binding type}"></Label>
-                            <Label Content="{Binding position}"></Label>
-                            <Label></Label>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+               
             </ListBox>
 
             <Label
                 ></Label>
 
             <Button Background="Wheat"
+                    Click="Button_Click_2"
                     >Добавить вариант</Button>
 
             <Label></Label>

@@ -9,6 +9,9 @@ using System.Windows.Input;
 using System.Dynamic;
 using System.Security.Policy;
 using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text.Json.Nodes;
+using System.Collections.ObjectModel;
 
 namespace Connechn
 {
@@ -19,6 +22,7 @@ namespace Connechn
 
         public static string NameQuestionniry { get; set; }
 
+        public static string NameStudent { get; set; }
         public static string teacher { get; set; }
 
        public NpgsqlConnection ngsqlConnection;
@@ -54,7 +58,7 @@ namespace Connechn
 
 
         }
-        public void AddQuestion(string json)
+        public void AddQuestion(CreateQuestion createQuestion, string type)
         {
             NpgsqlCommand npgsqlCommand = autongsqlConnection.CreateCommand();
 
@@ -63,18 +67,32 @@ namespace Connechn
             e.Read();
             int Id = e.GetInt32(0);
             Console.WriteLine(Id);
+            e.Close();
 
-            //npgsqlCommand.CommandText = "insert into \"Question \" ( \"Content\" , \"From\", \"Type\" )\r\nvalues (@json, @from, @type);";
-            //npgsqlCommand.Parameters.AddWithValue("@json", NpgsqlDbType.Jsonb, json);
-            //npgsqlCommand.Parameters.AddWithValue("@from", NpgsqlDbType.Integer, json);
-            //npgsqlCommand.Parameters.AddWithValue("@json", NpgsqlDbType.Jsonb, json);
+            string json = JsonConvert.SerializeObject(createQuestion);
+
+           
+
+            npgsqlCommand.CommandText = "insert into \"Question \" ( \"Content\" , \"From\", \"Type\" )\r\nvalues (@json, @from, @type);";
+            npgsqlCommand.Parameters.AddWithValue("@json", NpgsqlDbType.Jsonb, json);
+            npgsqlCommand.Parameters.AddWithValue("@from", NpgsqlDbType.Integer, Id);
+            npgsqlCommand.Parameters.AddWithValue("@type", NpgsqlDbType.Varchar, type);
+            npgsqlCommand.ExecuteNonQuery();
 
 
         }
-
-      
-
+       
 
 
+
+
+    }
+    public class CreateQuestion
+    {
+        public string Text { get; set; }
+
+        public int position { get; set; }
+
+        public ObservableCollection<string> PossibleAnswer { get; set; }
     }
 }

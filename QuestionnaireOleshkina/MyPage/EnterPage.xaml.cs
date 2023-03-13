@@ -38,6 +38,10 @@ namespace QuestionnaireOleshkina
 
         public Page TeacherPage { get { return teacherPage; } private set { teacherPage = value; } }
 
+        private Page pageForStudent;
+
+        public Page PageForStudent { get { return pageForStudent; } private set { pageForStudent = value; } }
+
 
 
 
@@ -49,6 +53,7 @@ namespace QuestionnaireOleshkina
 
             TeacherPage = new EnterInSistem(Connect);
 
+            PageForStudent = new PageForStudent();
 
         }
 
@@ -88,7 +93,8 @@ namespace QuestionnaireOleshkina
                 }
                 else if (result.GetString(5) == "Student")
                 {
-
+                    Connechn.ConnectWithDataBase.NameStudent = login;
+                    NavigationService.Navigate(PageForStudent);
 
                 }
 

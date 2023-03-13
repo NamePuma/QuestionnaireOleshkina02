@@ -136,10 +136,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PageForStudent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyPage\PageForTeacher.xaml.cs">
       <DependentUpon>PageForTeacher.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageForStudent.xaml.cs">
+      <DependentUpon>PageForStudent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -31,7 +31,7 @@ namespace QuestionnaireOleshkina
     public partial class EnterInSistem : Page
     {
         ConnectWithDataBase connection;
-        public ObservableCollection<CreateQuestion> createQuestions { get; set; }
+        public ObservableCollection<string> createQuestions { get; set; }
         private enum forImageLion
         {
             visa,
@@ -45,7 +45,7 @@ namespace QuestionnaireOleshkina
             InitializeComponent();
             connection = connect;
 
-            createQuestions = new ObservableCollection<CreateQuestion>();
+            createQuestions = new ObservableCollection<string>();
 
 
             DataContext = this;
@@ -79,22 +79,23 @@ namespace QuestionnaireOleshkina
 
             string position = textBoxOnPositionQuestions.Text;
 
-           
-            
-            connection.AddFromInBase();
+
+
+
 
             CreateQuestion createQuestion = new CreateQuestion()
             {
                 Text = text,
-                position = position,
-                type = type
-            };
+                position = int.Parse(position),
+                PossibleAnswer = createQuestions
 
-            string json = JsonConvert.SerializeObject(createQuestion);
-            createQuestions.Add(createQuestion);
+           };
+
+           
+           
 
 
-            connection.AddQuestion(json);
+            connection.AddQuestion(createQuestion, type);
 
 
 
@@ -113,29 +114,29 @@ namespace QuestionnaireOleshkina
 
 
 
-        public class CreateQuestion
-        {
-            public string Text { get; set; }
-
-            public string type { get; set; }
-
-            public string position { get; set; }
-        }
+      
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             var text = textBoxForName.Text;
             if (text.Length < 1)
             {
-                MessageBox.Show("ПУПА");
+                MessageBox.Show("Нет названия");
                 return;
             }
             Connechn.ConnectWithDataBase.NameQuestionniry = text;
-
+            connection.AddFromInBase();
 
             stackPanelNameQuetionniry.Visibility = Visibility.Hidden;
             stackPanelCreateQuesrion.Visibility = Visibility.Visible;
             stackPanelEditQuesrions.Visibility = Visibility.Visible;
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if(PossibleAnswer.Text.Length < 1) { MessageBox.Show("Pipa"); return; }
+            createQuestions.Add(PossibleAnswer.Text);
 
         }
     }
