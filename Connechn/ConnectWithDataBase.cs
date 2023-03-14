@@ -68,7 +68,7 @@ namespace Connechn
             int Id = e.GetInt32(0);
             Console.WriteLine(Id);
             e.Close();
-
+            
             string json = JsonConvert.SerializeObject(createQuestion);
 
            
@@ -78,15 +78,84 @@ namespace Connechn
             npgsqlCommand.Parameters.AddWithValue("@from", NpgsqlDbType.Integer, Id);
             npgsqlCommand.Parameters.AddWithValue("@type", NpgsqlDbType.Varchar, type);
             npgsqlCommand.ExecuteNonQuery();
+            
 
 
         }
-       
+
+        public ObservableCollection<CreateQuestion> SelectQuestionniyAuto()
+        {
+
+
+            NpgsqlCommand npgsqlCommand = autongsqlConnection.CreateCommand();
+            npgsqlCommand.CommandText = "Select \"id\", \"Content\" from \"Question \"";
+            var result = npgsqlCommand.ExecuteReader();
+            ObservableCollection<CreateQuestion> addInCollection = new ObservableCollection<CreateQuestion>();
+            if (result.HasRows)
+            {
+                while (result.Read())
+                {
+                    CreateQuestion createQuestion = JsonConvert.DeserializeObject<CreateQuestion>(result.GetString(1));
+                    //result.Close();
+                    //return createQuestion;
+                    addInCollection.Add(createQuestion);
+
+
+
+
+                }
+                result.Close();
+                return addInCollection; 
+            }
+            
+           
+
+            
+            result.Close();
+            return null;
+        }
+
+
+
+
+
+        public CreateQuestion SelectQuestionniy()
+        {
+
+
+            NpgsqlCommand npgsqlCommand = autongsqlConnection.CreateCommand();
+            npgsqlCommand.CommandText = "Select \"id\", \"Content\" from \"Question \" order by \"id\"  desc";
+            var result = npgsqlCommand.ExecuteReader();
+
+            if (result.HasRows)
+            {
+                while (result.Read())
+                {
+                    CreateQuestion createQuestion = JsonConvert.DeserializeObject<CreateQuestion>(result.GetString(1));
+                    result.Close();
+                    return createQuestion;
+
+
+
+
+
+                }
+
+            }
+
+
+
+
+            result.Close();
+            return null;
+        }
 
 
 
 
     }
+
+
     public class CreateQuestion
     {
         public string Text { get; set; }

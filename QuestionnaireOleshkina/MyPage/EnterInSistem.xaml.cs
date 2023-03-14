@@ -32,6 +32,8 @@ namespace QuestionnaireOleshkina
     {
         ConnectWithDataBase connection;
         public ObservableCollection<string> createQuestions { get; set; }
+
+        public ObservableCollection<CreateQuestion> createQuestionForShow { get; set; }
         private enum forImageLion
         {
             visa,
@@ -47,8 +49,17 @@ namespace QuestionnaireOleshkina
 
             createQuestions = new ObservableCollection<string>();
 
+            createQuestionForShow = connection.SelectQuestionniyAuto();
+
+
+
+
+
 
             DataContext = this;
+
+
+
 
         }
 
@@ -97,7 +108,11 @@ namespace QuestionnaireOleshkina
 
             connection.AddQuestion(createQuestion, type);
 
+            Console.WriteLine();
 
+
+
+            createQuestionForShow.Add(connection.SelectQuestionniy());
 
 
 
@@ -118,6 +133,8 @@ namespace QuestionnaireOleshkina
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            
+
             var text = textBoxForName.Text;
             if (text.Length < 1)
             {

@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:QuestionnaireOleshkina"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="EnterInSistem">
+      Title="EnterInSistem"
+      >
 
     <Grid Background="Wheat">
         <Grid.ColumnDefinitions>
@@ -65,7 +66,21 @@
             <StackPanel>
                 <TextBlock FontWeight="Black"
                     >Добавлные анкеты</TextBlock>
-                
+                <ListBox Background="Wheat"
+                         Height="434"
+                         ScrollViewer.CanContentScroll="False"
+                         ItemsSource="{Binding createQuestionForShow}"
+                         
+                         
+                         >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="{Binding Text}"></Label>
+                                <Label Content="{Binding position}"></Label>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate></ListBox>
             </StackPanel>
         </ScrollViewer>
 

@@ -50,11 +50,14 @@ namespace QuestionnaireOleshkina
             InitializeComponent();
 
             Connect = connechn;
-
-            TeacherPage = new EnterInSistem(Connect);
-
-            PageForStudent = new PageForStudent();
-
+            if (TeacherPage == null)
+            {
+                TeacherPage = new EnterInSistem(Connect);
+            }
+            if (PageForStudent == null)
+            {
+                PageForStudent = new PageForStudent();
+            }
         }
 
         private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

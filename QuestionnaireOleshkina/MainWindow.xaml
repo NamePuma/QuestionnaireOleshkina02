@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuestionnaireOleshkina"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1000" MinHeight="500" MinWidth="1000" MaxHeight="500" MaxWidth="1000">
+        Title="MainWindow" Height="500" Width="1000" MinHeight="500" MinWidth="1000" MaxHeight="500" MaxWidth="1000" Icon="C:\Users\student\source\repos\QuestionnaireOleshkina\QuestionnaireOleshkina\iconFromOleg.png" ResizeMode="NoResize">
     <Grid>
         <Frame
             Name="MyFrame" 
