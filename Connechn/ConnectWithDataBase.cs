@@ -149,6 +149,29 @@ namespace Connechn
             result.Close();
             return null;
         }
+        public ObservableCollection<CreateQuestion> Receive(string teacher)
+        {
+            NpgsqlCommand npgsqlCommand = autongsqlConnection.CreateCommand();
+            npgsqlCommand.CommandText = "Select \"Name\" from \"From\" where \"Teacher\" = @teacher";
+            npgsqlCommand.Parameters.AddWithValue("@teacher", NpgsqlDbType.Varchar, teacher);
+            var result = npgsqlCommand.ExecuteReader();
+            ObservableCollection<CreateQuestion> OCReceive = new ObservableCollection<CreateQuestion>();
+            CreateQuestion createQuestion;
+            if (!result.HasRows)
+            { return null; }
+
+                while (result.Read())
+                {
+                createQuestion = new CreateQuestion();
+                createQuestion.Text = result.GetString(0);
+                    OCReceive.Add( createQuestion);
+               
+            }
+             result.Close();
+            return OCReceive;
+            
+
+        }
 
 
 

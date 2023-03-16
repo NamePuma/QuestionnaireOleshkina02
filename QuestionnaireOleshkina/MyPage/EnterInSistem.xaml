@@ -17,7 +17,7 @@
             <ColumnDefinition Width="26"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
-            
+
         </Grid.ColumnDefinitions>
 
         <Image Name="imgLion" 
@@ -29,9 +29,9 @@
                ></Image>
 
 
-        
 
-            <Border Margin="17 0 0 0 " 
+
+        <Border Margin="17 0 0 0 " 
                 Grid.Column="3" 
                 HorizontalAlignment="Center" 
                 BorderBrush="Black" 
@@ -44,7 +44,7 @@
                     Grid.Column="4" 
                     Grid.ColumnSpan="2"
                     Name="stackPanelNameQuetionniry">
-                    
+
             <TextBlock FontSize="30" 
                        FontWeight="Black"
 
@@ -56,9 +56,9 @@
             <Button Click="Button_Click_1"
                 
                 >Добавить</Button>
-            
+
         </StackPanel>
-        
+
 
         <ScrollViewer Grid.ColumnSpan="3"  
                       VerticalScrollBarVisibility="Auto"
@@ -77,15 +77,18 @@
                         <DataTemplate>
                             <StackPanel>
                                 <Label Content="{Binding Text}"></Label>
-                                <Label Content="{Binding position}"></Label>
                             </StackPanel>
                         </DataTemplate>
-                    </ListBox.ItemTemplate></ListBox>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </ScrollViewer>
 
+        <StackPanel Grid.Column="3">
+            <Button Background="Wheat" Click="Button_Click_3">Об</Button>
+        </StackPanel>
 
-            <StackPanel Name="stackPanelEditQuesrions"
+        <StackPanel Name="stackPanelEditQuesrions"
                         Visibility="Hidden"
             Grid.Column="4">
 
@@ -106,7 +109,7 @@
 
             <Label Height="14"
                    ></Label>
-            
+
             <CheckBox Background="Wheat"
                 >Включить фильтр</CheckBox>
 
@@ -118,7 +121,7 @@
 
             <Label Height="14"
                 ></Label>
-            
+
             <ListBox Background="Wheat"
                 Height="80"
                 ></ListBox>
@@ -136,29 +139,29 @@
 
             <Button Background="Wheat"
                     Margin="5"
-                > Сохранить изменения</Button>
+                >Сохранить изменения</Button>
 
             <Button Background="Wheat"
                     Margin="5"
                 >Удалить вопрос</Button>
-            
+
         </StackPanel>
         <StackPanel Name="stackPanelCreateQuesrion"
                     Visibility="Hidden"
             Grid.Column="5">
-            
+
             <TextBlock
                 
                 FontWeight="Bold"
                 >Создать новый</TextBlock>
-            
+
             <Label 
                 Margin="5"
                 >Текст вопроса</Label>
-            
+
             <TextBox Name="textOnCreateQuestions"
                 Background="Wheat">
-                
+
             </TextBox>
             <Label
                 Margin="5"    
@@ -171,17 +174,17 @@
                 <ComboBoxItem Content="RadioButon"/>
 
             </ComboBox>
-            
+
             <Label
                 Margin="5"
                 >Позиция в анкете</Label>
-            
+
             <TextBox Name="textBoxOnPositionQuestions"
                 Background="Wheat"
                 ></TextBox>
 
             <Label></Label>
-            
+
             <CheckBox Name="checkBoxOnUsingFilter"
                 Background="Wheat"      
                       >Включить фильтр</CheckBox>
@@ -199,7 +202,7 @@
             <Label
                 Height="13"
                 ></Label>
-            
+
             <Button 
                 Background="Wheat"
                 HorizontalAlignment="Center"   
@@ -224,7 +227,7 @@
                 ItemsSource="{Binding createQuestions}" 
                      
                      >
-               
+
             </ListBox>
 
             <Label
@@ -235,12 +238,14 @@
                     >Добавить вариант</Button>
 
             <Label></Label>
-            
+
             <CheckBox Click="CheckBox_Click"
                       Background="Wheat"
                 >Добавить фон</CheckBox>
         </StackPanel>
-
         
+        
+    
+
     </Grid>
 </Page>

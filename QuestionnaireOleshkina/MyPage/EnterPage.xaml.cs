@@ -92,6 +92,7 @@ namespace QuestionnaireOleshkina
                 if (result.GetString(5) == "Teacher")
                 {
                     Connechn.ConnectWithDataBase.teacher =login;
+
                     NavigationService.Navigate(TeacherPage);
                 }
                 else if (result.GetString(5) == "Student")

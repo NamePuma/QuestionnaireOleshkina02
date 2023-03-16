@@ -49,14 +49,14 @@ namespace QuestionnaireOleshkina
 
             createQuestions = new ObservableCollection<string>();
 
-            createQuestionForShow = connection.SelectQuestionniyAuto();
+            createQuestionForShow = connection.Receive(ConnectWithDataBase.teacher);
 
 
 
 
 
 
-            DataContext = this;
+
 
 
 
@@ -108,11 +108,7 @@ namespace QuestionnaireOleshkina
 
             connection.AddQuestion(createQuestion, type);
 
-            Console.WriteLine();
-
-
-
-            createQuestionForShow.Add(connection.SelectQuestionniy());
+          
 
 
 
@@ -133,7 +129,7 @@ namespace QuestionnaireOleshkina
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            
+          
 
             var text = textBoxForName.Text;
             if (text.Length < 1)
@@ -147,6 +143,9 @@ namespace QuestionnaireOleshkina
             stackPanelNameQuetionniry.Visibility = Visibility.Hidden;
             stackPanelCreateQuesrion.Visibility = Visibility.Visible;
             stackPanelEditQuesrions.Visibility = Visibility.Visible;
+            DataContext = null;
+
+            
 
         }
 
@@ -155,6 +154,12 @@ namespace QuestionnaireOleshkina
             if(PossibleAnswer.Text.Length < 1) { MessageBox.Show("Pipa"); return; }
             createQuestions.Add(PossibleAnswer.Text);
 
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            createQuestionForShow = connection.Receive(ConnectWithDataBase.teacher);
+            DataContext = this;
         }
     }
 }
