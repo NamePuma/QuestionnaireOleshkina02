@@ -69,7 +69,9 @@
                 <ListBox Background="Wheat"
                          Height="434"
                          ScrollViewer.CanContentScroll="False"
-                         ItemsSource="{Binding createQuestionForShow}"
+                         ItemsSource="{Binding ForShow}"
+                         SelectionChanged="ListBox_SelectionChanged"
+                         Name="listiForQuestionnaire"
                          
                          
                          >
@@ -84,9 +86,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Grid.Column="3">
-            <Button Background="Wheat" Click="Button_Click_3">Об</Button>
-        </StackPanel>
+        
 
         <StackPanel Name="stackPanelEditQuesrions"
                         Visibility="Hidden"

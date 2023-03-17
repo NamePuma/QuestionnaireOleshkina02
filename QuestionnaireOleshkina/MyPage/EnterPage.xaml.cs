@@ -50,10 +50,7 @@ namespace QuestionnaireOleshkina
             InitializeComponent();
 
             Connect = connechn;
-            if (TeacherPage == null)
-            {
-                TeacherPage = new EnterInSistem(Connect);
-            }
+
             if (PageForStudent == null)
             {
                 PageForStudent = new PageForStudent();
@@ -83,27 +80,31 @@ namespace QuestionnaireOleshkina
 
             NpgsqlCommand npgsqlCommand = Connect.autongsqlConnection.CreateCommand();
 
-            npgsqlCommand.CommandText = "select * from \"Account\" where \"Login\" = @log and \"Password\" = @pas";
+            npgsqlCommand.CommandText = "select * from \"Account\" where \"Login\" = @log and \"Password\" = @pas limit 1";
             npgsqlCommand.Parameters.AddWithValue("@log", NpgsqlDbType.Varchar, login);
             npgsqlCommand.Parameters.AddWithValue("@pas", NpgsqlDbType.Varchar, password);
             var result = npgsqlCommand.ExecuteReader();
-            while (result.Read())
-            {
+            result.Read();
                 if (result.GetString(5) == "Teacher")
                 {
                     Connechn.ConnectWithDataBase.teacher =login;
-
+                     result.Close();
+                    if (TeacherPage == null)
+                    {
+                        TeacherPage = new EnterInSistem(Connect);
+                    }
                     NavigationService.Navigate(TeacherPage);
                 }
                 else if (result.GetString(5) == "Student")
                 {
+                    result.Close();
                     Connechn.ConnectWithDataBase.NameStudent = login;
                     NavigationService.Navigate(PageForStudent);
 
                 }
 
 
-            }
+            
             result.Close();
         }
     }

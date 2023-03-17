@@ -30,10 +30,24 @@ namespace QuestionnaireOleshkina
 
     public partial class EnterInSistem : Page
     {
+        private enum TwoClick
+        {
+            One, Two
+        }
+        private TwoClick clickForListBox = TwoClick.One;
+        
+        private enum ForIdQuestion
+        {
+            one , two 
+        }
+        private ForIdQuestion enumId = ForIdQuestion.one;
+
         ConnectWithDataBase connection;
         public ObservableCollection<string> createQuestions { get; set; }
 
-        public ObservableCollection<CreateQuestion> createQuestionForShow { get; set; }
+        public ObservableCollection<Receive> ForShow { get; set; }
+
+        public ObservableCollection<CreateQuestion> ShowQuestion { get; set; }
         private enum forImageLion
         {
             visa,
@@ -49,9 +63,12 @@ namespace QuestionnaireOleshkina
 
             createQuestions = new ObservableCollection<string>();
 
-            createQuestionForShow = connection.Receive(ConnectWithDataBase.teacher);
+            
 
 
+
+            ForShow = connection.Receive(ConnectWithDataBase.teacher);
+            DataContext = this;
 
 
 
@@ -102,19 +119,31 @@ namespace QuestionnaireOleshkina
 
            };
 
-           
-           
 
 
-            connection.AddQuestion(createQuestion, type);
+            if (enumId == ForIdQuestion.one)
+            {
 
-          
+                connection.AddQuestionWithId(createQuestion, type, ConnectWithDataBase.IdQuestion);
+            }
+            else if (enumId == ForIdQuestion.two)
+            {
+                connection.AddQuestion(createQuestion, type);
+            }
+            if (ShowQuestion == null)
+            {
+                
+                ShowQuestion = new ObservableCollection<CreateQuestion>();
+                listiForQuestionnaire.ItemsSource = ShowQuestion;
+                ShowQuestion.Add(createQuestion);
+                clickForListBox = TwoClick.Two;
 
 
-
-
-
-
+            }
+            else
+            {
+                ShowQuestion.Add(createQuestion);
+            }
 
 
 
@@ -140,12 +169,15 @@ namespace QuestionnaireOleshkina
             Connechn.ConnectWithDataBase.NameQuestionniry = text;
             connection.AddFromInBase();
 
+
             stackPanelNameQuetionniry.Visibility = Visibility.Hidden;
             stackPanelCreateQuesrion.Visibility = Visibility.Visible;
             stackPanelEditQuesrions.Visibility = Visibility.Visible;
-            DataContext = null;
+            ForShow.Clear();
+            enumId = ForIdQuestion.two;
 
-            
+
+
 
         }
 
@@ -156,10 +188,56 @@ namespace QuestionnaireOleshkina
 
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            createQuestionForShow = connection.Receive(ConnectWithDataBase.teacher);
-            DataContext = this;
+            //switch(clickForListBox)
+            //{
+            //    case TwoClick.One: clickForListBox = TwoClick.Two; listBoxForQuestions.SelectedItem = null; break;
+            //    case TwoClick.Two: MessageBox.Show("Вы вфывыф"); clickForListBox = TwoClick.One; break;
+
+            //}
+            if (clickForListBox == TwoClick.One)
+            {
+
+                var list = sender as ListBox;
+
+                if (list.SelectedItem == null) return;
+
+                Receive receive = (Receive)list.SelectedItem;
+
+                int id = receive.Id;
+
+                ConnectWithDataBase.IdQuestion = id;
+
+                ShowQuestion = connection.SelectQuestionniyAuto(id);
+
+                stackPanelNameQuetionniry.Visibility = Visibility.Hidden;
+                stackPanelCreateQuesrion.Visibility = Visibility.Visible;
+                stackPanelEditQuesrions.Visibility = Visibility.Visible;
+
+                listiForQuestionnaire.ItemsSource = ShowQuestion;
+
+                clickForListBox = TwoClick.Two;
+
+            }
+            else if (clickForListBox == TwoClick.Two)
+            {
+                var list = sender as ListBox;
+
+                if (list.SelectedItem == null) return;
+
+                CreateQuestion receive = (CreateQuestion)list.SelectedItem;
+
+                
+            }
+
+
+            
+            
+
+
+
+
         }
     }
 }
