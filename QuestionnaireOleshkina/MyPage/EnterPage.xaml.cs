@@ -84,7 +84,9 @@ namespace QuestionnaireOleshkina
             npgsqlCommand.Parameters.AddWithValue("@log", NpgsqlDbType.Varchar, login);
             npgsqlCommand.Parameters.AddWithValue("@pas", NpgsqlDbType.Varchar, password);
             var result = npgsqlCommand.ExecuteReader();
+            if (!result.HasRows) { result.Close(); return; }
             result.Read();
+            
                 if (result.GetString(5) == "Teacher")
                 {
                     Connechn.ConnectWithDataBase.teacher =login;

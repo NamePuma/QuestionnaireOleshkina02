@@ -25,6 +25,10 @@ namespace Connechn
         public static string NameStudent { get; set; }
         public static string teacher { get; set; }
 
+        public static int IdQ { get; set; }
+
+        public static int Index { get; set; } = -1;
+
         public static int IdQuestion { get; set; }
 
         public NpgsqlConnection ngsqlConnection;
@@ -76,12 +80,14 @@ namespace Connechn
 
 
 
-            npgsqlCommand.CommandText = "insert into \"Question \" ( \"Content\" , \"From\", \"Type\" )\r\nvalues (@json, @from, @type);";
+            npgsqlCommand.CommandText = "insert into \"Question \" ( \"Content\" , \"From\", \"Type\" )\r\nvalues (@json, @from, @type) returning \"id\";";
             npgsqlCommand.Parameters.AddWithValue("@json", NpgsqlDbType.Jsonb, json);
             npgsqlCommand.Parameters.AddWithValue("@from", NpgsqlDbType.Integer, Id);
             npgsqlCommand.Parameters.AddWithValue("@type", NpgsqlDbType.Varchar, type);
-            npgsqlCommand.ExecuteNonQuery();
+            object a = npgsqlCommand.ExecuteScalar();
+            if (a == null) { return; }
 
+            IdQ = (int)(a);
 
 
         }
@@ -101,12 +107,15 @@ namespace Connechn
 
 
 
-            npgsqlCommand.CommandText = "insert into \"Question \" ( \"Content\" , \"From\", \"Type\" )\r\nvalues (@json, @from, @type);";
+            npgsqlCommand.CommandText = "insert into \"Question \" ( \"Content\" , \"From\", \"Type\" )\r\nvalues (@json, @from, @type) returning \"id\"";
             npgsqlCommand.Parameters.AddWithValue("@json", NpgsqlDbType.Jsonb, json);
             npgsqlCommand.Parameters.AddWithValue("@from", NpgsqlDbType.Integer, id);
             npgsqlCommand.Parameters.AddWithValue("@type", NpgsqlDbType.Varchar, type);
-            npgsqlCommand.ExecuteNonQuery();
+            
+            object a = npgsqlCommand.ExecuteScalar();
+            if(a == null) { return;  }
 
+            IdQ = (int)(a);
 
 
         }
@@ -125,7 +134,7 @@ namespace Connechn
                 while (result.Read())
                 {
                     CreateQuestion createQuestion = JsonConvert.DeserializeObject<CreateQuestion>(result.GetString(1));
-                    //result.Close();
+                    createQuestion.Id = result.GetInt32(0);
                     //return createQuestion;
                     addInCollection.Add(createQuestion);
 
@@ -207,6 +216,19 @@ namespace Connechn
         }
 
 
+        public void DeleteQuestion(int id)
+        {
+            NpgsqlCommand npgsqlCommand = autongsqlConnection.CreateCommand();
+
+            npgsqlCommand.CommandText = "Delete from \"Question \" where id = @id";
+            npgsqlCommand.Parameters.AddWithValue("@id", NpgsqlDbType.Integer, id);
+            npgsqlCommand.ExecuteNonQuery();
+
+        }
+
+
+
+
 
 
     }
@@ -214,6 +236,7 @@ namespace Connechn
 
     public class CreateQuestion
     {
+        public int Id { get; set; }
         public string Text { get; set; }
 
         public int position { get; set; }

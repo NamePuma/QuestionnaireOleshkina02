@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Policy;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -35,10 +37,10 @@ namespace QuestionnaireOleshkina
             One, Two
         }
         private TwoClick clickForListBox = TwoClick.One;
-        
+
         private enum ForIdQuestion
         {
-            one , two 
+            one, two
         }
         private ForIdQuestion enumId = ForIdQuestion.one;
 
@@ -63,7 +65,7 @@ namespace QuestionnaireOleshkina
 
             createQuestions = new ObservableCollection<string>();
 
-            
+
 
 
 
@@ -117,7 +119,7 @@ namespace QuestionnaireOleshkina
                 position = int.Parse(position),
                 PossibleAnswer = createQuestions
 
-           };
+            };
 
 
 
@@ -132,7 +134,7 @@ namespace QuestionnaireOleshkina
             }
             if (ShowQuestion == null)
             {
-                
+
                 ShowQuestion = new ObservableCollection<CreateQuestion>();
                 listiForQuestionnaire.ItemsSource = ShowQuestion;
                 ShowQuestion.Add(createQuestion);
@@ -148,17 +150,16 @@ namespace QuestionnaireOleshkina
 
 
 
-
         }
 
 
 
 
-      
+
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-          
+
 
             var text = textBoxForName.Text;
             if (text.Length < 1)
@@ -173,8 +174,13 @@ namespace QuestionnaireOleshkina
             stackPanelNameQuetionniry.Visibility = Visibility.Hidden;
             stackPanelCreateQuesrion.Visibility = Visibility.Visible;
             stackPanelEditQuesrions.Visibility = Visibility.Visible;
-            ForShow.Clear();
+            if (ForShow != null)
+            {
+                ForShow.Clear();
+            }
             enumId = ForIdQuestion.two;
+            addQuestionnire.Text = "Вопросы";
+
 
 
 
@@ -183,8 +189,9 @@ namespace QuestionnaireOleshkina
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if(PossibleAnswer.Text.Length < 1) { MessageBox.Show("Pipa"); return; }
+            if (PossibleAnswer.Text.Length < 1) { MessageBox.Show("Nain"); return; }
             createQuestions.Add(PossibleAnswer.Text);
+            PossibleAnswer.Text = string.Empty;
 
         }
 
@@ -217,24 +224,74 @@ namespace QuestionnaireOleshkina
 
                 listiForQuestionnaire.ItemsSource = ShowQuestion;
 
+                addQuestionnire.Text = "Вопросы";
+
                 clickForListBox = TwoClick.Two;
+
+
+
+
 
             }
             else if (clickForListBox == TwoClick.Two)
             {
                 var list = sender as ListBox;
 
-                if (list.SelectedItem == null) return;
+                if (list.SelectedItem == null)
+                {
+                    ConnectWithDataBase.Index = -1;
+                    return;
+                }
 
-                CreateQuestion receive = (CreateQuestion)list.SelectedItem;
 
-                
+
+                CreateQuestion receiveForUpdate = (CreateQuestion)list.SelectedItem;
+
+                ConnectWithDataBase.IdQ = receiveForUpdate.Id;
+                ConnectWithDataBase.Index = list.SelectedIndex;
+
             }
 
 
-            
-            
 
+
+
+
+
+
+        }
+
+        private void listBoxForQuestions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listBoxForChangeAnswerOption = sender as ListBox;
+
+            if (listBoxForChangeAnswerOption.SelectedItem == null) { return; }
+
+            string answerOption = listBoxForChangeAnswerOption.SelectedItem.ToString();
+
+            if (PossibleAnswer.Text.Length > 1) { return; }
+
+            PossibleAnswer.Text = answerOption;
+
+            createQuestions.RemoveAt(listBoxForChangeAnswerOption.SelectedIndex);
+
+
+
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+
+            connection.DeleteQuestion(Connechn.ConnectWithDataBase.IdQ);
+            try
+            {
+                if (ShowQuestion == null || ConnectWithDataBase.Index == -1) {
+                    MessageBox.Show("Ну нечего удалять");
+                    return; 
+                }
+                ShowQuestion.RemoveAt(ConnectWithDataBase.Index);
+            }
+            catch { MessageBox.Show("Ну нечего удалять"); }
 
 
 

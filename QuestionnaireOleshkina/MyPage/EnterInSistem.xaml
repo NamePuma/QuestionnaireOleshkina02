@@ -65,6 +65,7 @@
                       >
             <StackPanel>
                 <TextBlock FontWeight="Black"
+                           Name="addQuestionnire"
                     >Добавлные анкеты</TextBlock>
                 <ListBox Background="Wheat"
                          Height="434"
@@ -143,6 +144,7 @@
 
             <Button Background="Wheat"
                     Margin="5"
+                    Click="Button_Click_3"
                 >Удалить вопрос</Button>
 
         </StackPanel>
@@ -225,6 +227,7 @@
                 Background="Wheat"
                 Height="80"
                 ItemsSource="{Binding createQuestions}" 
+                SelectionChanged="listBoxForQuestions_SelectionChanged"
                      
                      >
 
